@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g., v1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-22.04-arm]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pixi
+        uses: prefix-dev/setup-pixi@v0.9.5
+        with:
+          pixi-version: latest
+
+      - name: Build installer package
+        run: pixi run build
+
+      - name: Upload package to release
+        run: |
+          # Try to create release if it doesn't exist, ignore error if already exists
+          gh release create ${{ github.event.inputs.tag }} --generate-notes 2>/dev/null || true
+          # Upload assets to the release (existing or newly created)
+          gh release upload ${{ github.event.inputs.tag }} opencode* --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

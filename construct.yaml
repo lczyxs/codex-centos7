@@ -1,0 +1,12 @@
+name: codex
+version: "0.142.5"
+channels:
+  - https://prefix.dev/conda-forge
+
+specs:
+  - opencode 0.142.5
+  - patchelf
+  - sysroot-conda_2_28-x86_64 # [linux64]
+  - sysroot-conda_2_28-aarch64 # [aarch64]
+
+post_install: patch-opencode.sh
