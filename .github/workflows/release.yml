@@ -33,6 +33,6 @@ jobs:
           # Try to create release if it doesn't exist, ignore error if already exists
           gh release create ${{ github.event.inputs.tag }} --generate-notes 2>/dev/null || true
           # Upload assets to the release (existing or newly created)
-          gh release upload ${{ github.event.inputs.tag }} opencode* --clobber
+          gh release upload ${{ github.event.inputs.tag }} codex* --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
