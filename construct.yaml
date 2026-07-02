@@ -9,4 +9,4 @@ specs:
   - sysroot-conda_2_28-x86_64 # [linux64]
   - sysroot-conda_2_28-aarch64 # [aarch64]
 
-post_install: patch-opencode.sh
+post_install: patch-codex.sh
